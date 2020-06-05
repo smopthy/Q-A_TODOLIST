@@ -1,0 +1,7 @@
+<a href='/'>back</a>
+<input type="checkbox" name='isDone' {{#if todos.isDone}} checked {{/if}} disabled>
+<p>{{todos.name}}</p>
+<a href="/todos/{{todos._id}}/edit" >edit</a>
+<form action='/todos/{{todos._id}}?_method=DELETE' method='POST' style="display: inline;">
+<button type='submit'>delete</button>
+</form>
