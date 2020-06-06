@@ -1,28 +1,27 @@
-const express = require('express')
-const mongoose = require('momgoose')
+
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema 
 
-const userSchema  = new  Schema ({
+const userSchema  = new Schema ({
 
         name : {
           type : String  ,
           required : true ,
         } , 
-        eamil : {
+        email : {
           type : String , 
           required : true 
         } , 
-
         password :{
           type : String , 
           required : true
         } , 
-        createAt : {
+        createdAt : {
           type : Date , 
           default : Date.now 
         }
 
 })
 
-module.exports = mongoose.modle('User' , userSchema ) 
+module.exports = mongoose.model('User' , userSchema ) 
