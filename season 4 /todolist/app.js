@@ -24,9 +24,12 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(methodOverride('_method'))
-app.use(routes)
 
 usePassport(app)
+
+app.use(routes)
+
+
 
 app.listen(3000 , ()=>{
     console.log('node connection is ok ')
