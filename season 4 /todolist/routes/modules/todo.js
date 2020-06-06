@@ -10,8 +10,9 @@ router.get('/new' , (req,res)=>{
 })
 
 router.post('/' , (req ,res)=>{
+    const userId = req.user._id
     const name = req.body.name 
-    return Todo.create({name})
+    return Todo.create({name , userId})
         .then(() => res.redirect('/')) 
         .catch(err=>{console.log(err)})
 })
@@ -20,9 +21,10 @@ router.post('/' , (req ,res)=>{
 //detail 
 
 router.get('/:id' , (req,res)=>{
-    const id = req.params.id
+    const userId = req.user._id
+    const _id = req.params.id
 
-    return Todo.findById(id)
+    return Todo.findOne({_id , userId})
         .lean()
         .then((todos) =>{
             res.render('detail' , {todos})
@@ -33,8 +35,9 @@ router.get('/:id' , (req,res)=>{
 //edit 
 
 router.get('/:id/edit' , (req,res)=>{
-    const id = req.params.id
-    return Todo.findById(id)
+    const userId = req.user._id
+    const _id = req.params.id
+    return Todo.findOne({_id , userId})
         .lean()
         .then((todos)=>{res.render('edit' , {todos})})
         .catch()
@@ -42,10 +45,11 @@ router.get('/:id/edit' , (req,res)=>{
 
 
 router.put('/:id' , (req,res)=>{
+    const userId = req.user._id
+    const _id = req.params.id
     const name = req.body.name 
-    const id = req.params.id
     const isDone = req.body.isDone 
-        return Todo.findById(id)
+        return Todo.findOne({_id , userId})
             .then((todos)=>{
                 todos.name = name
                 todos.isDone = isDone === 'on'
@@ -58,13 +62,14 @@ router.put('/:id' , (req,res)=>{
 // delete 
 
 router.delete('/:id' , (req,res)=>{
-const id = req.params.id
-    return Todo.findById(id)
-        .then(todos=>{    
-            todos.remove()
-        })
-        .then(()=>res.redirect('/'))
-        .catch()
+        const _id = req.params.id
+        const userId = req.user._id
+        return Todo.findOne({ _id, userId })
+            .then(todos=>{    
+                todos.remove()
+            })
+            .then(()=>res.redirect('/'))
+            .catch()
 })
 
 module.exports = router 
